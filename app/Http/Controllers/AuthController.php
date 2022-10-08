@@ -19,7 +19,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->createNewToken($token);
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user()
+        ]);
     }
 
     public function register(Request $request)
@@ -35,18 +40,8 @@ class AuthController extends Controller
         ));
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'Registrasi berhasil!',
             'user' => $user
         ], 201);
-    }
-
-    protected function createNewToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()
-        ]);
     }
 }

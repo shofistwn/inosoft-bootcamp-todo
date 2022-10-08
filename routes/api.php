@@ -2,7 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\{
+    AuthController,
+    TodoController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +19,18 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'todo'
+], function () {
+    Route::get('/show', [TodoController::class, 'index']);
+    Route::post('/create', [TodoController::class, 'store']);
+    Route::put('/update', [TodoController::class, 'update']);
+    Route::delete('/delete', [TodoController::class, 'delete']);
 });
