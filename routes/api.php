@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
@@ -29,8 +28,8 @@ Route::group([
     'middleware' => 'auth:api',
     'prefix' => 'todo'
 ], function () {
-    Route::get('/show', [TodoController::class, 'index']);
-    Route::post('/create', [TodoController::class, 'store']);
-    Route::put('/update', [TodoController::class, 'update']);
-    Route::delete('/delete', [TodoController::class, 'delete']);
+    Route::post('/show', [TodoController::class, 'showTodos']);
+    Route::post('/create', [TodoController::class, 'createTodo']);
+    Route::post('/update', [TodoController::class, 'updateTodo']);
+    Route::post('/delete', [TodoController::class, 'deleteTodo']);
 });
