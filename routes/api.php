@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
-    TodoController
+    TaskController
 };
 
 /*
@@ -26,10 +26,10 @@ Route::group([
 
 Route::group([
     'middleware' => 'auth:api',
-    'prefix' => 'todo'
+    'prefix' => 'task'
 ], function () {
-    Route::post('/show', [TodoController::class, 'showTodos']);
-    Route::post('/create', [TodoController::class, 'createTodo']);
-    Route::post('/update', [TodoController::class, 'updateTodo']);
-    Route::post('/delete', [TodoController::class, 'deleteTodo']);
+    Route::get('/show', [TaskController::class, 'showTasks']);
+    Route::post('/create', [TaskController::class, 'createTask']);
+    Route::post('/update', [TaskController::class, 'updateTask']);
+    Route::post('/delete', [TaskController::class, 'deleteTask']);
 });

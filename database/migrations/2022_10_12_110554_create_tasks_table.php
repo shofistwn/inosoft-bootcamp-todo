@@ -12,7 +12,7 @@ class CreateTodosTable extends Migration
      */
     public function up()
     {
-        Schema::create('todos', function ($collection) {
+        Schema::create('tasks', function ($collection) {
         });
     }
 
@@ -23,6 +23,6 @@ class CreateTodosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('tasks');
     }
 }

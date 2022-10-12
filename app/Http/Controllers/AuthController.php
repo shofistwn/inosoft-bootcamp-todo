@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required|string|min:6',
+        $request->validate([
+            'username' => 'required|string|min:3',
+            'password' => 'required|string|min:3'
         ]);
 
-        if (!$token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $credentials = $request->only('username', 'password');
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['message' => 'Username atau password salah!'], 401);
         }
 
         return response()->json([
@@ -29,15 +30,15 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:users',
-            'password' => 'required|string|min:6',
+        $request->validate([
+            'username' => 'required|string|min:3',
+            'password' => 'required|string|min:3'
         ]);
 
-        $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
+        $user = User::create([
+            'username' => $request->username,
+            'password' => bcrypt($request->password)
+        ]);
 
         return response()->json([
             'message' => 'Registrasi berhasil!',

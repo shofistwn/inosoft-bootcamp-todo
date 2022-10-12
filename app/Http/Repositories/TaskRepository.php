@@ -4,25 +4,25 @@ namespace App\Http\Repositories;
 
 use App\Helpers\MongoModel;
 
-class TodoRepository
+class TaskRepository
 {
-    private MongoModel $todos;
+    private MongoModel $tasks;
 
     public function __construct()
     {
-        $this->todos = new MongoModel('todos');
+        $this->tasks = new MongoModel('tasks');
     }
 
     public function getAll()
     {
-        $todos = $this->todos->get([]);
-        return $todos;
+        $tasks = $this->tasks->get([]);
+        return $tasks;
     }
 
     public function getById(string $id)
     {
-        $todo = $this->todos->find(['_id' => $id]);
-        return $todo;
+        $task = $this->tasks->find(['_id' => $id]);
+        return $task;
     }
 
     public function create(array $data)
@@ -30,22 +30,23 @@ class TodoRepository
         $dataSaved = [
             'user_id' => $data['user_id'],
             'title' => $data['title'],
-            'created_at' => time()
+            'description' => $data['description'],
+            'created_at' => $data['created_at']
         ];
 
-        $id = $this->todos->save($dataSaved);
+        $id = $this->tasks->save($dataSaved);
         return $id;
     }
 
     public function save(array $editedData)
     {
-        $id = $this->todos->save($editedData);
+        $id = $this->tasks->save($editedData);
         return $id;
     }
 
     public function delete(string $id)
     {
-        $todo = $this->todos->deleteQuery(['_id' => $id]);
-        return $todo;
+        $task = $this->tasks->deleteQuery(['_id' => $id]);
+        return $task;
     }
 }
